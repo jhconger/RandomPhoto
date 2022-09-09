@@ -22,9 +22,22 @@ class ViewController: UIViewController {
         button1.backgroundColor = .white
         button1.setTitle("Save",for: .normal)
         button1.setTitleColor(.systemBlue,for: .normal)
-       
         return button1
     }()
+    let colors: [UIColor] = [
+        .systemBlue,
+        .systemRed,
+        .systemCyan,
+        .systemMint,
+        .systemFill,
+        .systemTeal,
+        .systemGray,
+        .systemGreen,
+        .systemIndigo,
+        .systemOrange,
+        .systemPurple,
+        .systemYellow,
+    ]
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemMint
@@ -33,13 +46,13 @@ class ViewController: UIViewController {
         imageView.center = view.center
         view.addSubview(button)
         view.addSubview(button1)
-        getRandomPhoto()
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button1.addTarget(self,action: #selector(buttonAction),for: .touchUpInside)
+        getRandomPhoto()
     }
     @objc func didTapButton() {
         getRandomPhoto()
-
+        view.backgroundColor = colors.randomElement()
     }
     @objc func buttonAction() {
                 print("Button pressed")
