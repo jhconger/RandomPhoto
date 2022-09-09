@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     }()
     private let button1: UIButton = {
         let button1 = UIButton()
+        button1.backgroundColor = .white
         button1.setTitle("Save",for: .normal)
         button1.setTitleColor(.systemBlue,for: .normal)
        
@@ -47,7 +48,7 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         button.frame = CGRect(x: 30, y: view.frame.size.height-150-view.safeAreaInsets.bottom, width: view.frame.size.width-60, height: 55)
-        button1.frame = CGRect(x: 30, y: view.frame.size.height-100-view.safeAreaInsets.bottom, width: view.frame.size.width-60, height: 55)
+        button1.frame = CGRect(x: 30, y: view.frame.size.height-90-view.safeAreaInsets.bottom, width: view.frame.size.width-60, height: 55)
     }
 
     func getRandomPhoto() {
@@ -61,23 +62,4 @@ class ViewController: UIViewController {
     
 }
 
-//        private let button1 = UIButton(frame: CGRect(x: 100,
-//                                                  y: 800,
-//                                                  width: 200,
-//                                                  height: 60))
-//              button1.setTitle("Save",
-//                              for: .normal)
-//              button1.setTitleColor(.systemBlue,
-//                                   for: .normal)
-//
-//              button1.addTarget(self,
-//                               action: #selector(buttonAction),
-//                               for: .touchUpInside)
-//
-//              self.view.addSubview(button)
-//
-//              // Do any additional setup after loading the view.
-//          }
-//}
-//
-//
+
