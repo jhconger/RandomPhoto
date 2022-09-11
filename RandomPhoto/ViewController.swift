@@ -1,8 +1,37 @@
-
-
 import UIKit
 
+class Canvas: UIView {
+    override func draw(_ rect:CGRect) {
+        //custom drawing
+        super.draw(rect)
+        
+        guard let context = UIGraphicsGetCurrentContext() else
+        {return}
+ 
+        for(i,p) in line.enumerated(){
+            if i==0 {
+                context.move(to: p)
+            } else {
+                context.addLine(to: p)
+            }
+        }
+        context.strokePath()
+    
+    }
+    
+    var line = [CGPoint]()
+    //track touhces
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let point = touches.first?.location(in: nil ) else
+        {return}
+        print (point)
+        line.append(point)
+        setNeedsDisplay()
+        
+}
+}
 class ViewController: UIViewController {
+    let canvas = Canvas()
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -49,6 +78,13 @@ class ViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button1.addTarget(self,action: #selector(buttonAction),for: .touchUpInside)
         getRandomPhoto()
+    
+        imageView.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
+        imageView.center = view.center
+        view.addSubview(canvas)
+        canvas.frame = CGRect(x: 0, y: 0, width:view.frame.size.width , height: 725)
+        canvas.backgroundColor = .clear
+        
     }
     @objc func didTapButton() {
         getRandomPhoto()
