@@ -1,58 +1,26 @@
 import UIKit
 
-class Canvas: UIView {
-    override func draw(_ rect:CGRect) {
-        //custom drawing
-        super.draw(rect)
-        
-        guard let context = UIGraphicsGetCurrentContext() else
-        {return}
-        
-        context.setStrokeColor(UIColor.red.cgColor)
-        context.setLineWidth(8)
-        context.setLineCap(.round)
-        
-        lines.forEach{ (line) in
-            for(i,p) in line.enumerated(){
-                if i==0 {
-                    context.move(to: p)
-                } else {
-                    context.addLine(to: p)
-                }
-            }
-        }
-        context.strokePath()
-    
-    }
-//commenting out this code to make many vs single line
-//    var line = [CGPoint]()
-     
-    var lines = [[CGPoint]]()
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        lines.append([CGPoint]())
-    }
-    //track touhces
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let point = touches.first?.location(in: nil ) else
-        { return }
-        
-        print (point)
-        
-        guard var lastLine = lines.popLast() else { return }
-        lastLine.append(point)
-         
-        lines.append(lastLine)
-//        var lastLine = lines.last
-//        lastLine?.append(point)
-        
-        setNeedsDisplay()
-        
-}
-}
+
 class ViewController: UIViewController {
     let canvas = Canvas()
+    
+    let undoButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Undo", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        return button
+    }()
 
+    let clearButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Clear", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        return button
+    }()
+//    override func loadView() {
+//        self.view = canvas
+//    }
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -105,7 +73,19 @@ class ViewController: UIViewController {
         canvas.frame = CGRect(x: 0, y: 0, width:view.frame.size.width , height: 725)
         canvas.backgroundColor = .clear
         
+        let StackView = UIStackView(arrangedSubviews: [
+            undoButton,
+            clearButton
+            ])
+        view.addSubview(StackView)
+        StackView.distribution = .fillEqually
+        StackView.translatesAutoresizingMaskIntoConstraints = false
+        StackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        StackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        StackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
     }
+    
     @objc func didTapButton() {
         getRandomPhoto()
         view.backgroundColor = colors.randomElement()
